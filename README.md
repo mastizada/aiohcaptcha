@@ -31,7 +31,7 @@ details of the `HCaptchaResponse` model is same as the JSON response provided in
 ### Extra arguments
 
 You can also add `remote_ip` and `sitekey` (expected key) to the `client.verify` function.
-These parameters are explain the the [hCaptcha docs](https://docs.hcaptcha.com/).
+These parameters are explained in the [hCaptcha docs](https://docs.hcaptcha.com/).
 
 ---
 
