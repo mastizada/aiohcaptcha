@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "aiohcaptcha"
+version = "0.1.0"
+description = "AsyncIO client for the hCaptcha service."
+authors = ["Emin Mastizada <emin@linux.com>"]
+license = "MIT"
+homepage = "https://gitlab.com/mastizada/aiohcaptcha"
+repository = "https://gitlab.com/mastizada/aiohcaptcha"
+readme = "README.md"
+keywords = ["hcaptcha", "captcha"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Plugins",
+    "Framework :: AsyncIO",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed"
+]
+packages = [
+    { include = "aiohcaptcha" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+aiohttp = "^3.7.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+isort = "^5.6.4"
+flake8-black = "^0.2.1"
+pytest-cov = "^2.10.1"
+pytest-asyncio = "^0.14.0"
+mypy = "^0.790"
+
+[tool.black]
+line-length = 119
+target-version = ["py38"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.mypy_cache
+  | \.venv
+  | \.pytest_cache
+  | __pycache__
+  | _build
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+line_length = 119
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
