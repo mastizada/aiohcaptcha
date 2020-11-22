@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aiohcaptcha"
-version = "0.1.0"
+version = "0.1.1"
 description = "AsyncIO client for the hCaptcha service."
 authors = ["Emin Mastizada <emin@linux.com>"]
 license = "MIT"

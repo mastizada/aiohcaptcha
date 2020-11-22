@@ -19,9 +19,15 @@ Get the secret and public keys from the [hcaptcha.com](https://hcaptcha.com).
 
 Check [hCaptcha docs](https://docs.hcaptcha.com/) for more details on the HTML widget.
 ### View
+    from aiohcaptcha import HCaptchaClient
+    
     response_token = request.POST["h-captcha-response"]
     client = HCaptchaClient(secret_key)
     verified = await client.verify(response_token)  # a boolean
+
+You can adjust it to any Python Web framework that has async view support.
+
+If you are sending the form data using an AJAX request, use `$('textarea[name=h-captcha-response]').val();` for the captcha key.
 
 ### Response details
 

@@ -7,7 +7,7 @@ TESTING_SITE_KEY = "10000000-ffff-ffff-ffff-000000000001"
 
 
 def test_version():
-    assert __version__ == "0.1.0"
+    assert __version__ == "0.1.1"
 
 
 @pytest.mark.asyncio
