@@ -1,4 +1,4 @@
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 import logging
 import os
 from typing import Optional
@@ -27,9 +27,20 @@ class HCaptchaResponse(object):
 class HCaptchaClient(object):
     """Client for hCaptcha API."""
 
-    def __init__(self, secret_key: Optional[str] = None, api_url: str = "https://hcaptcha.com/siteverify"):
+    def __init__(
+        self,
+        secret_key: Optional[str] = None,
+        debug: Optional[bool] = False,
+        api_url: str = "https://hcaptcha.com/siteverify",
+    ):
+        """
+        Initialize the client for hCaptcha.
+        :param secret_key: hCaptcha secret key.
+        :param debug: Debug mode to bypass verification in unit testing.
+        :param api_url: Custom API URL for hCaptcha.
+        """
         if not secret_key:
-            site_key = os.environ.get("HCAPTCHA_SECRET_KEY", None)
+            secret_key = os.environ.get("HCAPTCHA_SECRET_KEY", None)
         if not secret_key:
             raise RuntimeError(
                 "Site key is not provided for the hCaptcha client."
@@ -37,6 +48,7 @@ class HCaptchaClient(object):
                 "or pass a site_key argument to this class."
             )
         self.secret_key = secret_key
+        self.debug = debug
         self.api_url = api_url
         self.response: Optional[HCaptchaResponse] = None
 
@@ -61,6 +73,10 @@ class HCaptchaClient(object):
             payload["remoteip"] = remote_ip
         if sitekey:
             payload["sitekey"] = sitekey
+        if self.debug and sitekey:
+            if user_token == sitekey:
+                return True
+            return False
         async with ClientSession() as session:
             async with session.post(url=self.api_url, data=payload) as resp:
                 if resp.status != 200:

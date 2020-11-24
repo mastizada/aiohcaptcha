@@ -1,0 +1,27 @@
+test:
+  image: python:3.8
+  cache:
+    key: pip
+    paths:
+      - "$HOME/.cache/pre-commit"
+  script:
+    - pip install poetry
+    - poetry install
+    - poetry run pytest --cov=. --cov-report html:htmlcov/ --cov-report term
+    - poetry run flake8 .
+  artifacts:
+    paths:
+      - htmlcov/
+
+pages:
+  stage: deploy
+  dependencies:
+    - test
+  script:
+    - mv htmlcov/ public/
+  artifacts:
+    paths:
+      - public
+    expire_in: 180 days
+  only:
+    - master

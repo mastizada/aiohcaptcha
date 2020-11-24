@@ -7,7 +7,7 @@ TESTING_SITE_KEY = "10000000-ffff-ffff-ffff-000000000001"
 
 
 def test_version():
-    assert __version__ == "0.1.1"
+    assert __version__ == "0.1.2"
 
 
 @pytest.mark.asyncio
@@ -15,7 +15,15 @@ async def test_verification():
     with pytest.raises(RuntimeError):
         HCaptchaClient()
     client = HCaptchaClient(TESTING_SECRET_KEY)
-    assert await client.verify(TESTING_SITE_KEY), client.response.error_codes
+    # manual captcha verification is not possible
+    assert await client.verify(TESTING_SITE_KEY) is False, client.response.error_codes
+
+
+@pytest.mark.asyncio
+async def test_debug_mode():
+    client = HCaptchaClient(TESTING_SECRET_KEY, debug=True)
+    assert await client.verify(TESTING_SITE_KEY, sitekey=TESTING_SITE_KEY)
+    assert await client.verify(TESTING_SITE_KEY, sitekey="12345") is False
 
 
 @pytest.mark.asyncio
@@ -25,13 +33,6 @@ async def test_incorrect_response():
     assert result is False
     assert len(client.response.error_codes) == 1
     assert "invalid-input-response" in client.response.error_codes
-
-
-@pytest.mark.asyncio
-async def test_expected_sitekey():
-    client = HCaptchaClient(TESTING_SECRET_KEY)
-    result = await client.verify(TESTING_SITE_KEY, sitekey=TESTING_SITE_KEY)
-    assert result, client.response.error_codes
 
 
 @pytest.mark.asyncio
