@@ -1,5 +1,8 @@
 # aiohcaptcha
 
+ [![pipeline status](https://gitlab.com/mastizada/aiohcaptcha/badges/master/pipeline.svg)](https://gitlab.com/mastizada/aiohcaptcha/-/commits/master) 
+ [![coverage report](https://gitlab.com/mastizada/aiohcaptcha/badges/master/coverage.svg)](https://gitlab.com/mastizada/aiohcaptcha/-/commits/master) 
+
 AsyncIO client for the hCaptcha service
 
 Secure your forms using a captcha.
@@ -38,6 +41,13 @@ details of the `HCaptchaResponse` model is same as the JSON response provided in
 
 You can also add `remote_ip` and `sitekey` (expected key) to the `client.verify` function.
 These parameters are explained in the [hCaptcha docs](https://docs.hcaptcha.com/).
+
+For unit testing, you can create the Client `HCaptchaClient` with `debug=True` parameter.
+In this mode, the `verify` function will return `True` if the `user_response` token and `sitekey` parameters do match, otherwise it will return `False`:
+
+    client = HCaptchaClient("<SECRET_KEY>", debug=True)
+    assert await client.verify("<USER_TOKEN>", sitekey="<SAME_TOKEN>")
+    assert await client.verify("<USER_TOKEN>", sitekey="<DIFFERENT_TOKEN>") is False
 
 ---
 
